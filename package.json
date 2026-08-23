@@ -1,0 +1,21 @@
+{
+  "name": "automation-exercise-framework",
+  "version": "1.0.0",
+  "description": "Playwright UI/E2E testing project with API tests.",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/B0rtleinacan/automation-exercise-framework.git"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/B0rtleinacan/automation-exercise-framework/issues"
+  },
+  "homepage": "https://github.com/B0rtleinacan/automation-exercise-framework#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.2.0"
+  }
+}
