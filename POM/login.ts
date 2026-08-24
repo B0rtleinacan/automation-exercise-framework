@@ -25,7 +25,7 @@ export class Login {
         this.signupButton = page.getByLabel('Signup');
     }
 
-    async goto() {
+    async gotoMain() {
         await this.page.goto('https://www.automationexercise.com/');
     }
 
