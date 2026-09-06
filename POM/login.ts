@@ -1,45 +1,40 @@
 import { type Locator, type Page } from '@playwright/test';
+import { NavBar } from './NavBar';
 
 export class Login {
-    readonly page;
-    readonly login_signupButton: Locator;
-    readonly loginEmailAddress: Locator;
-    readonly loginPassword: Locator;
-    readonly signupEmailAddress: Locator;
-    readonly signupName: Locator;
-    readonly logoutButton: Locator;
-    readonly deleteAccount: Locator;
-    readonly loginButton: Locator;
-    readonly signupButton: Locator;
+    readonly navBar: NavBar;;
 
-    constructor(page: Page) {
-        this.page = page;
-        this.login_signupButton = page.getByRole('link', { name: 'Signup /  Login' });
-        this.loginEmailAddress = page.locator('.login-form').getByLabel('Email Address')
-        this.loginPassword = page.getByLabel('Password');
-        this.signupName = page.getByLabel('Name');
-        this.signupEmailAddress = page.locator('.signup-form').getByLabel('Email Address');
-        this.logoutButton = page.getByRole('link', { name: ' Logout'});
-        this.deleteAccount = page.getByRole('link', { name: 'Delete Account' });
-        this.loginButton = page.getByLabel('Login');
-        this.signupButton = page.getByLabel('Signup');
+    constructor(private readonly page: Page) {
+        this.navBar = new NavBar(page);
     }
 
     async gotoMain() {
         await this.page.goto('https://www.automationexercise.com/');
     }
 
+    async gotoSignupLogin() {
+        await this.navBar.gotoSignupLogin();
+    }
+
     async login(email: string, password: string) {
-        await this.login_signupButton.click();
-        await this.loginEmailAddress.fill(email);
-        await this.loginPassword.fill(password);
-        await this.signupButton.click();
+        await this.page.getByRole('link', { name: 'Signup /  Login' }).click();
+        await this.page.locator('.login-form').getByLabel('Email Address').fill(email);
+        await this.page.getByLabel('Password').fill(password);
+        await this.page.getByLabel('Login').click();
     }
 
     async signup(name: string, email: string) {
-        await this.login_signupButton.click();
-        await this.signupName.fill(name);
-        await this.signupEmailAddress.fill(email);
-        await this.signupButton.click();
+        await this.page.getByRole('link', { name: 'Signup /  Login' }).click();
+        await this.page.getByLabel('Name').fill(name);
+        await this.page.locator('.signup-form').getByLabel('Email Address').fill(email);
+        await this.page.getByLabel('Signup').click();
+    }
+
+    async logout() {
+        await this.page.getByRole('link', { name: ' Logout'}).click();
+    }
+
+    async deleteAccountClick() {
+        await this.page.getByRole('link', { name: 'Delete Account' }).click();
     }
 }
