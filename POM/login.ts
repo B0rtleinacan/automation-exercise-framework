@@ -2,7 +2,7 @@ import { type Locator, type Page } from '@playwright/test';
 import { NavBar } from './NavBar';
 
 export class Login {
-    readonly navBar: NavBar;;
+    readonly navBar: NavBar;
 
     constructor(private readonly page: Page) {
         this.navBar = new NavBar(page);
