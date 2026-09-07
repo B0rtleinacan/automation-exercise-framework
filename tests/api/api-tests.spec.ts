@@ -79,3 +79,34 @@ test('Post to search products with no parameters, returns 400', async ({ request
         "message": "Bad request, search_product parameter is missing in POST request."
     })
 });
+
+// API 11
+test('Post create an account, returns 201', async ({ request }:{ request: APIRequestContext }) => {
+    const response = await request.post('https://automationexercise.com/api/createAccount', {
+        data: {
+            name: 'Test User',
+            email: 'testuser@example.com',
+            password: 'TestPassword123',
+            title: 'Mr',
+            birth_date: '1990-01-01',
+            birth_month: 'January',
+            birth_year: '1990',
+            firstname: 'Test',
+            lastname: 'User',
+            company: 'Test Company',
+            address1: '123 Test St',
+            address2: 'Apt 4',
+            country:'United States',
+            zipcode: '12345',
+            state: 'Test State',
+            city: 'Test City',
+            mobile_number: '1234567890'
+        }
+    });
+
+    const responseBody = await response.json();
+    expect(responseBody).toMatchObject({
+        "responseCode": 201,
+        "message": "User created!"
+    });
+});
