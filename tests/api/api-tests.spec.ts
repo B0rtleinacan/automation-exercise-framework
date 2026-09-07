@@ -64,3 +64,18 @@ test('Post to search products, returns 200', async ({ request }:{ request: APIRe
     });
     expect(response.status()).toBe(200);
 });
+
+// API 6
+test('Post to search products with no parameters, returns 400', async ({ request }:{ request: APIRequestContext }) => {
+    const response = await request.post('https://automationexercise.com/api/searchProduct', {
+        data: {
+            name: ' '
+        }
+    });
+
+    const responseBody = await response.json();
+    expect(responseBody).toMatchObject({
+        "responseCode": 400,
+        "message": "Bad request, search_product parameter is missing in POST request."
+    })
+});
