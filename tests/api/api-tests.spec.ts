@@ -11,17 +11,13 @@ test('Get all products, returns 200', async ({ request }:{ request: APIRequestCo
 // API 2
 test('Post to all products, returns 405', async ({ request }: { request: APIRequestContext }) => {
     const response = await request.post('https://automationexercise.com/api/productsList', {
-        data: {
+        form: {
             id: 44,
             name: 'Test Product',
             price: 99.99,
             brand: 'Test Brand',
-            category: {
-                userType: {
-                    userType: 'Test User Type'
-                },
-                category: 'Test Category'
-            }
+            'category[userType][userType]': 'Test User Type',
+            'category[category]': 'Test Category'
         }
     });
 
@@ -42,7 +38,7 @@ test('Get all brands, returns 200', async ({ request }: { request: APIRequestCon
 // API 4
 test('PUT to all brands, returns 405', async ({ request }: { request: APIRequestContext }) => {
     const response = await request.put('https://automationexercise.com/api/brandsList', {
-        data: {
+        form: {
             id: 1,
             name: 'Test Brand'
         }
@@ -58,7 +54,7 @@ test('PUT to all brands, returns 405', async ({ request }: { request: APIRequest
 // API 5
 test('Post to search products, returns 200', async ({ request }:{ request: APIRequestContext }) => {
     const response = await request.post('https://automationexercise.com/api/searchProduct', {
-        data: {
+        form: {
             name: 'Blue Top'
         }
     });
@@ -68,7 +64,7 @@ test('Post to search products, returns 200', async ({ request }:{ request: APIRe
 // API 6
 test('Post to search products with no parameters, returns 400', async ({ request }:{ request: APIRequestContext }) => {
     const response = await request.post('https://automationexercise.com/api/searchProduct', {
-        data: {
+        form: {
             name: ' '
         }
     });
@@ -83,9 +79,9 @@ test('Post to search products with no parameters, returns 400', async ({ request
 // API 11
 test('Post create an account, returns 201', async ({ request }:{ request: APIRequestContext }) => {
     const response = await request.post('https://automationexercise.com/api/createAccount', {
-        data: {
+        form: {
             name: 'Test User',
-            email: 'testuser@example.com',
+            email: 'testsomethingPlease@yourmail.com',
             password: 'TestPassword123',
             title: 'Mr',
             birth_date: '1990-01-01',
@@ -110,3 +106,37 @@ test('Post create an account, returns 201', async ({ request }:{ request: APIReq
         "message": "User created!"
     });
 });
+
+// API 13
+test('Update an account using PUT, returns 200', async ({ request }:{ request: APIRequestContext }) => {
+    const response = await request.put('https://automationexercise.com/api/updateAccount', {
+        form: {
+            email: 'testsomethingPlease@yourmail.com',
+            password: 'TestingPassword123',
+            name: 'Updated Test User'
+        }
+    });
+    expect(response.status()).toBe(200);
+});
+
+// API 14
+test('Get account details by email and using GET, returns 200', async ({ request }:{ request: APIRequestContext }) => {
+    const response = await request.get('https://automationexercise.com/api/getUserDetailByEmail', {
+        form: {
+            email: 'testsomethingPlease@yourmail.com'
+        }
+    });
+    expect(response.status()).toBe(200);
+});
+
+// API 12
+test('Delete an account using DELETE, returns 200', async ({ request }:{ request: APIRequestContext }) => {
+    const response = await request.delete('https://automationexercise.com/api/deleteAccount', {
+        form: {
+            email: 'testsomethingPlease@yourmail.com',
+            password: 'TestPassword123'
+        }
+    });
+    expect(response.status()).toBe(200);
+});
+
