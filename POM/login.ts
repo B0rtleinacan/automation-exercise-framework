@@ -25,9 +25,9 @@ export class Login {
 
     async signup(name: string, email: string) {
         await this.page.getByRole('link', { name: 'Signup /  Login' }).click();
-        await this.page.getByLabel('Name').fill(name);
-        await this.page.locator('.signup-form').getByLabel('Email Address').fill(email);
-        await this.page.getByLabel('Signup').click();
+        await this.page.locator('input[name="name"]').fill(name);
+        await this.page.locator('form').filter({ hasText: 'Signup' }).getByPlaceholder('Email Address').fill(email);
+        await this.page.locator('button').filter({ hasText: 'Signup' }).click();
     }
 
     async logout() {
