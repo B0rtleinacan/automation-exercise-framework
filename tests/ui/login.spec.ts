@@ -1,6 +1,9 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect, Page, APIRequestContext } from '@playwright/test';
 import { Login } from '../../POM/login';
 
+// E2E flow for User login interactions, edge cases are handled on the lower lines of code outlined "edge cases"
+
+// Test Case 1: Register User 
 test('Login page exists', async ({ page }: { page: Page}) => {
     const login = new Login(page);
 
@@ -18,4 +21,25 @@ test('User can go to signup form', async ({ page }: { page: Page}) => {
     await login.signup('testuser', 'yes@no.com');
 
     await expect(page.getByText('Enter Account Information')).toBeVisible();    
+});
+
+test('User can fill out Signup form and create an account. After, delete account', async ({ page }: { page: Page }) => {
+    const login = new Login(page);
+
+    // Goes to signup/login page and navigates to signup form
+    await login.gotoMain();
+    await login.gotoSignupLogin();
+    await login.signup('testuser', 'yes@no.com');
+
+    // fills out signup form
+   await login.chooseTitle('Mr');
+   await login.filloutAccountInformation('testuser', 'yes@no.com', 'password123');
+   await login.addressInformation('testuser', 'testuser', '123 Main St', 'Apt 4B', 'California', 'Los Angeles', '90210', '555-1234');
+
+   await expect(page.getByText('Account Created!')).toBeVisible();
+
+   await login.continueButton();
+   await login. deleteAccountClick();
+
+   await expect(page.getByText('Account Deleted!')).toBeVisible();
 });
