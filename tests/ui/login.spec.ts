@@ -104,4 +104,56 @@ test('User cannot login with incorrect password', async ({ page }: { page: Page 
     await expect(page.getByText('Your email or password is incorrect!')).toBeVisible();
 });
 
+
+// Test Case 4: Logout User
+test('User can logout', async ({ page }: { page: Page }) => {
+    const login = new Login(page);
+
+    await login.gotoMain();
+    await login.gotoSignupLogin();
+    await login.signup('testuser', 'yes@no.com');
+
+    await login.filloutAccountInformation('testuser', 'yes@no.com', 'password123');
+    await login.addressInformation('testuser', 'testuser', '123 Main St', 'Apt 4B', 'California', 'Los Angeles', '90210', '555-1234');
+
+    await expect(page.getByText('Account Created!')).toBeVisible();
+
+    await login.continueButton();
+    await login.logout();
+
+    await expect(page.getByText('Signup / Login')).toBeVisible();
+
+    await login.loginToAccount('yes@no.com', 'password123');
+    await login.deleteAccountClick();
+
+    await expect(page.getByText('Account Deleted!')).toBeVisible();
+});
+
+// Test Case 5: Register User with existing email
+test('User cannot register with existing email', async ({ page }: { page: Page }) => {
+    const login = new Login(page);
+
+    await login.gotoMain();
+    await login.gotoSignupLogin();
+    await login.signup('testuser', 'yes@no.com');
+
+    await login.filloutAccountInformation('testuser', 'yes@no.com', 'password123');
+    await login.addressInformation('testuser', 'testuser', '123 Main St', 'Apt 4B', 'California', 'Los Angeles', '90210', '555-1234');
+
+    await expect(page.getByText('Account Created!')).toBeVisible();
+
+    await login.continueButton();
+    await login.logout();
+
+    await login.gotoSignupLogin();
+    await login.signup('testuser', 'yes@no.com');
+
+    await expect(page.getByText('Email Address already exist!')).toBeVisible();
+
+    await login.loginToAccount('yes@no.com', 'password123');
+    await login.deleteAccountClick();
+
+    await expect(page.getByText('Account Deleted!')).toBeVisible();
+});
+
 // Security test for login functionality
