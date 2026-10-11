@@ -31,7 +31,7 @@ export class Login {
     }
 
     async chooseTitle(title: string) {
-        // Conditional to handle title selection
+        // Conditional to handle title selection, choose 'Mr' or 'Mrs'
         if (title === 'Mr') {
             await this.page.locator('#id_gender1').click();
         } else if (title === 'Mrs') {

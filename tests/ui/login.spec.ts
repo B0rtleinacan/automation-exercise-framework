@@ -68,3 +68,40 @@ test('User can login with correct email and password', async ({ page }: { page: 
 
     await expect(page.getByText('Account Deleted!')).toBeVisible();
 });
+
+// Test Case 3: Login User with incorrect email and password
+test('User cannot login with incorrect email and/or password', async ({ page }: { page: Page }) => {
+    const login = new Login(page);
+
+    await login.gotoMain();
+    await login.gotoSignupLogin();
+
+    await login.loginToAccount('idkanymore@somethinglol', 'passwordpassword555');
+
+    await expect(page.getByText('Your email or password is incorrect!')).toBeVisible();
+});
+
+// Testing individaul login features/forms to ensure proper validation
+test('User cannot login with incorrect email', async ({ page }: { page: Page }) => {
+    const login = new Login(page);
+
+    await login.gotoMain();
+    await login.gotoSignupLogin();
+
+    await login.loginToAccount('these@fortnite.com', '123456789');
+
+    await expect(page.getByText('Your email or password is incorrect!')).toBeVisible();
+});
+
+test('User cannot login with incorrect password', async ({ page }: { page: Page }) => {
+    const login = new Login(page);
+
+    await login.gotoMain();
+    await login.gotoSignupLogin();
+
+    await login.loginToAccount('name@somethingelse.com', '1123456789');
+
+    await expect(page.getByText('Your email or password is incorrect!')).toBeVisible();
+});
+
+// Security test for login functionality
