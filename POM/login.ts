@@ -84,8 +84,8 @@ export class Login {
 
     async loginToAccount(email: string, password: string) {
         await this.page.getByRole('link', { name: 'Signup / Login' }).click();
-        await this.page.locator('#email').fill(email);
-        await this.page.locator('#password').fill(password);
+        await this.page.locator('.login-form').filter({ hasText: 'Login' }).getByPlaceholder('Email Address').fill(email);
+        await this.page.locator('input[name="password"]').fill(password);
         await this.page.locator('button').filter({ hasText: 'Login' }).click();
     }
 

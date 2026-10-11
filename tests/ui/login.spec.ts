@@ -20,7 +20,7 @@ test('User can go to signup form', async ({ page }: { page: Page}) => {
     await login.gotoSignupLogin();
     await login.signup('testuser', 'yes@no.com');
 
-    await expect(page.locator('#name')).toBeVisible();    
+    await expect(page.getByText('Enter Account Information')).toBeVisible();    
 });
 
 test('User can fill out Signup form and create an account. After, delete account', async ({ page }: { page: Page }) => {
