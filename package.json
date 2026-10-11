@@ -15,7 +15,7 @@
   },
   "homepage": "https://github.com/B0rtleinacan/automation-exercise-framework#readme",
   "devDependencies": {
-    "@playwright/test": "^1.62.1",
+    "@playwright/test": "^1.64.0",
     "@types/node": "^26.2.0"
   },
   "dependencies": {
